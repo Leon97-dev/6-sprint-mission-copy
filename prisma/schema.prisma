@@ -36,16 +36,16 @@ model Product {
 
 // 자유 게시판
 model Article {
-  id        Int       @id @default(autoincrement())
+  id        Int              @id @default(autoincrement())
   title     String
   content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  comment   Comment[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  comment   ArticleComment[]
 }
 
 // 자유 게시판 댓글 * 단순 댓글을 의도했기에 불필요한 updatedAt는 제외 시킴 *
-model Comment {
+model ArticleComment {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
