@@ -24,6 +24,9 @@ export const getCommentsByArticle = async (req, res) => {
 export const postCommentsByArticle = async (req, res) => {
   const { articleId, content } = req.body;
   if (!Number.isInteger(Number(articleId)) || !content) {
+    /* ✅ 멘토님 리뷰
+    요부분도 모두 validation 빼면 좋을 것 같습니다~ 
+    */
     return res
       .status(400)
       .json({ message: 'id가 잘못되었거나 댓글 내용이 없습니다.' });
