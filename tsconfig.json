@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    
+
     /* === 🧩 타입 관련 옵션 === */
     "strict": true,
     "skipLibCheck": true,
