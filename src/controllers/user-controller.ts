@@ -23,6 +23,7 @@ export const userController = {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         sameSite: 'lax',
+<<<<<<< HEAD
         secure: process.env.NODE_ENV === 'production',
       });
     }
@@ -32,6 +33,8 @@ export const userController = {
         httpOnly: true,
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
+=======
+>>>>>>> 1c51958 (feat: User 관련 기능 구현 완료)
       });
     }
 
@@ -45,6 +48,10 @@ export const userController = {
           nickname: user.nickname,
           image: user.image,
         },
+<<<<<<< HEAD
+=======
+        ...tokens,
+>>>>>>> 1c51958 (feat: User 관련 기능 구현 완료)
       },
     });
   },
@@ -62,6 +69,7 @@ export const userController = {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         sameSite: 'lax',
+<<<<<<< HEAD
         secure: process.env.NODE_ENV === 'production',
       });
     }
@@ -71,6 +79,8 @@ export const userController = {
         httpOnly: true,
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
+=======
+>>>>>>> 1c51958 (feat: User 관련 기능 구현 완료)
       });
     }
 
@@ -84,6 +94,10 @@ export const userController = {
           nickname: user.nickname,
           image: user.image,
         },
+<<<<<<< HEAD
+=======
+        ...tokens,
+>>>>>>> 1c51958 (feat: User 관련 기능 구현 완료)
       },
     });
   },
