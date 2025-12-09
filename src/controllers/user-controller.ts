@@ -23,6 +23,15 @@ export const userController = {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
+
+    if (tokens.accessToken) {
+      res.cookie('accessToken', tokens.accessToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
       });
     }
 
@@ -36,7 +45,6 @@ export const userController = {
           nickname: user.nickname,
           image: user.image,
         },
-        ...tokens,
       },
     });
   },
@@ -54,6 +62,15 @@ export const userController = {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
+
+    if (tokens.accessToken) {
+      res.cookie('accessToken', tokens.accessToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
       });
     }
 
@@ -67,7 +84,6 @@ export const userController = {
           nickname: user.nickname,
           image: user.image,
         },
-        ...tokens,
       },
     });
   },

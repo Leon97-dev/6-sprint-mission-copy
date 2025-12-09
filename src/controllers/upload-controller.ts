@@ -1,13 +1,11 @@
 // TODO) Upload-Controller: 요청 처리
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { ValidationError } from '../core/error/error-handler.js';
 
 export const uploadController = {
-  image(req: Request, res: Response) {
+  image(req: Request, res: Response, next: NextFunction) {
     if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: '업로드된 파일이 없습니다.',
-      });
+      return next(new ValidationError('file', '업로드된 파일이 없습니다'));
     }
 
     return res.status(201).json({
