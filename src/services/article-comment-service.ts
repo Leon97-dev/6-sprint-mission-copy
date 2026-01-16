@@ -4,6 +4,7 @@ import { assertContent } from '../utils/to-content.js';
 
 import { articleCommentRepo } from '../repositories/article-comment-repository.js';
 import { articleRepo } from '../repositories/article-repository.js';
+import { notificationService } from './notification-service.js';
 
 export const articleCommentService = {
   // 1) 댓글 목록 조회
@@ -35,11 +36,20 @@ export const articleCommentService = {
       throw new NotFoundError('게시글을 찾을 수 없습니다');
     }
 
-    return articleCommentRepo.create({
+    const comment = await articleCommentRepo.create({
       articleId,
       content: body,
       userId,
     });
+
+    await notificationService.create({
+      userId: article.userId,
+      type: 'ARTICLE_COMMENTED',
+      message: `"${article.title}"에 새로운 댓글이 달렸습니다`,
+      articleId: article.id,
+    });
+
+    return comment;
   },
 
   // 3) 댓글 수정

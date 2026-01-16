@@ -1,7 +1,7 @@
 // TODO) Validate: 공통 유효성 검사
 // ?) Superstruct 기반 공통 바디 검증 미들웨어
 import type { NextFunction, Request, Response } from 'express';
-import { assert, type Failure, type Struct, StructError } from 'superstruct';
+import { create, type Failure, type Struct, StructError } from 'superstruct';
 import { ValidationError } from '../core/error/error-handler.js';
 
 type PayloadKey = 'body' | 'params' | 'query';
@@ -12,7 +12,7 @@ const validatePayload =
   (req: Request, _res: Response, next: NextFunction) => {
     try {
       // 1-1) 요청 데이터 스키마 검증 및 변환 결과 재할당
-      const validated = assert(req[payloadKey as keyof Request], schema);
+      const validated = create(req[payloadKey as keyof Request], schema);
       (req as any)[payloadKey] = validated;
 
       next();

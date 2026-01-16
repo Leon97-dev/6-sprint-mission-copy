@@ -15,6 +15,7 @@ import {
 
 import { productRepo } from '../repositories/product-repository.js';
 import { productLikeRepo } from '../repositories/product-like-repository.js';
+import { notificationService } from './notification-service.js';
 
 export const productService = {
   // 1) 상품 목록 조회
@@ -94,7 +95,35 @@ export const productService = {
       throw new ForbiddenError('상품 수정 권한이 없습니다');
     }
 
-    return productRepo.updateProduct(id, data);
+    const nextPrice =
+      typeof data.price === 'number'
+        ? data.price
+        : typeof data.price === 'object' && data.price && 'set' in data.price
+        ? data.price.set
+        : undefined;
+
+    const priceChanged =
+      typeof nextPrice === 'number' && nextPrice !== product.price;
+
+    const updated = await productRepo.updateProduct(id, data);
+
+    if (priceChanged) {
+      const likedUsers = await productLikeRepo.listUserIdsByProduct(id);
+      const targets = likedUsers.map((item) => item.userId);
+
+      await Promise.all(
+        targets.map((targetUserId) =>
+          notificationService.create({
+            userId: targetUserId,
+            type: 'PRODUCT_PRICE_CHANGED',
+            message: `"${product.name}"의 가격이 ${product.price}원에서 ${nextPrice}원으로 변경되었습니다`,
+            productId: product.id,
+          })
+        )
+      );
+    }
+
+    return updated;
   },
 
   // 5) 상품 삭제
