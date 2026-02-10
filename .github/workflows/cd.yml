@@ -20,6 +20,7 @@ jobs:
           script: |
             set -e
             cd /home/ec2-user/sprint-5/6-sprint-mission-copy
+            export DATABASE_URL='${{ secrets.DATABASE_URL }}'
             git pull origin main
             npm ci
             npx prisma generate
