@@ -20,7 +20,23 @@ jobs:
           script: |
             set -e
             cd /home/ec2-user/sprint-5/6-sprint-mission-copy
-            export DATABASE_URL='${{ secrets.DATABASE_URL }}'
+
+            # Prefer GitHub secret, fallback to EC2 .env.
+            if [ -n "${{ secrets.DATABASE_URL }}" ]; then
+              export DATABASE_URL='${{ secrets.DATABASE_URL }}'
+            fi
+
+            if [ -z "${DATABASE_URL:-}" ] && [ -f .env ]; then
+              set -a
+              . ./.env
+              set +a
+            fi
+
+            if [ -z "${DATABASE_URL:-}" ]; then
+              echo "DATABASE_URL is empty. Set GitHub secret DATABASE_URL or configure EC2 .env."
+              exit 1
+            fi
+
             git pull origin main
             npm ci
             npx prisma generate
